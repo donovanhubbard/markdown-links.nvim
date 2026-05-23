@@ -1,0 +1,90 @@
+local link_stack = {}
+
+local function _print_link_stack()
+  if link_stack == nil then
+    print("link_stack is nil")
+  else
+    print("link_stack length = ",#link_stack)
+    for index, value in ipairs(link_stack) do
+      print(index, value)
+    end
+  end
+end
+
+local function _get_links_position(line)
+  local results = {}
+  local offset = 0
+  local remaining_line = line
+  local counter=0 while true do
+    counter = counter + 1
+    if counter > 50 then
+      break
+    end
+    local first, last = string.find(remaining_line, "%[%[.-%]%]")
+    if first == nil then
+      break
+    else
+      local new_first = first + offset
+      local new_last = last + offset
+      table.insert(results,{first=new_first, last=new_last})
+      offset = last + offset
+      remaining_line = string.sub(remaining_line,last + 1)
+    end
+  end
+  return results
+end
+
+local function _get_link(line, cursor_col)
+  local positions = _get_links_position(line)
+  for index, pos in ipairs(positions) do
+    if cursor_col >= pos.first and cursor_col <= pos.last then
+      return string.sub(line,pos.first+2,pos.last-2)
+    end
+  end
+  return nil
+end
+
+local function _get_link_at_cursor()
+  local line = vim.api.nvim_get_current_line()
+  local cursor_pos = vim.api.nvim_win_get_cursor(0)
+  if cursor_pos ~= nil then
+    local file_name = _get_link(line,cursor_pos[2]+1)
+    return file_name
+  else
+    print("markdown-links.nvim: Failed to get cursor position")
+  end
+  return nil
+end
+
+local function _follow_link()
+  local file_name = _get_link_at_cursor()
+  if file_name ~= nil then
+    local cwd = vim.fn.expand('%:p:h')
+    local current_file_path = vim.fn.expand('%:p')
+    local path = cwd .. "/" .. file_name
+    table.insert(link_stack,current_file_path)
+    vim.cmd.edit(path)
+  end
+end
+
+local function _back_link()
+  local target_file_path = link_stack[#link_stack]
+  if target_file_path ~= nil then
+    table.remove(link_stack)
+    vim.cmd.edit(target_file_path)
+  end
+end
+
+
+local M = {
+  _get_links_position = _get_links_position,
+  _get_link = _get_link,
+  FollowLink = function()
+    _follow_link()
+  end,
+  BackLink = function()
+    _back_link()
+  end,
+}
+
+return M
