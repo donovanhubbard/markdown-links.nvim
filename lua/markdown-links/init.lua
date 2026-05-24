@@ -79,6 +79,9 @@ end
 local ns = vim.api.nvim_create_namespace("markdown-links")
 vim.api.nvim_set_hl(0, "MarkdownLink", { fg = "#6176ff" })
 vim.api.nvim_set_decoration_provider(ns, {
+  on_buf = function(_, bufnr, _)
+    vim.api.nvim_buf_clear_namespace(bufnr, ns, 0, -1)
+  end,
   on_range = function(_, _, bufnr, begin_row, _, end_row, _)
     local lines = vim.api.nvim_buf_get_lines(bufnr, begin_row, end_row + 1, false)
     for i, line in ipairs(lines) do
