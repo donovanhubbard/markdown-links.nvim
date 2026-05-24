@@ -1,5 +1,6 @@
 local link_stack = {}
 
+
 local function _print_link_stack()
   if link_stack == nil then
     print("link_stack is nil")
@@ -36,7 +37,7 @@ end
 
 local function _get_link(line, cursor_col)
   local positions = _get_links_position(line)
-  for index, pos in ipairs(positions) do
+  for _, pos in ipairs(positions) do
     if cursor_col >= pos.first and cursor_col <= pos.last then
       return string.sub(line,pos.first+2,pos.last-2)
     end
@@ -75,6 +76,22 @@ local function _back_link()
   end
 end
 
+local ns = vim.api.nvim_create_namespace("markdown-links")
+vim.api.nvim_set_hl(0, "MarkdownLink", { fg = "#6176ff" })
+vim.api.nvim_set_decoration_provider(ns, {
+  on_range = function(_, _, bufnr, begin_row, _, end_row, _)
+    local lines = vim.api.nvim_buf_get_lines(bufnr, begin_row, end_row + 1, false)
+    for i, line in ipairs(lines) do
+      local row = begin_row + i - 1
+      for _, pos in ipairs(_get_links_position(line)) do
+        vim.api.nvim_buf_set_extmark(bufnr, ns, row, pos.first - 1, {
+          end_col = pos.last,
+          hl_group = "MarkdownLink",
+        })
+      end
+    end
+  end,
+})
 
 local M = {
   _get_links_position = _get_links_position,
