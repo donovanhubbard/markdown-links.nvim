@@ -1,0 +1,16 @@
+name: Run Tests
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+      - name: Check out the MiniTest submodule
+        run: |
+          git rev-parse --short HEAD
+          cd deps/mini.nvim
+          ls
+          git rev-parse --short HEAD
+
