@@ -5,7 +5,9 @@ Embed links into your markdown files and use them to quickly navigate around.
 Supports both moving forward to the link your cursor is on or returning back to
 the previous file you were linked to.
 
-![A video showing what it's like to navigate the links](assets/example.mov)
+[![A video showing what it's like to navigate the links](assets/example.mov)](https://github.com/donovanhubbard/markdown-links.nvim/raw/refs/heads/main/assets/example.mov)
+
+https://github.com/donovanhubbard/markdown-links.nvim/raw/refs/heads/main/assets/example.mov
 
 # Installation
 
