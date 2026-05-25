@@ -16,6 +16,3 @@ vim.api.nvim_create_user_command('BackLink',function()
   {desc = "Attempts to return to the previous link"}
 )
 
-vim.keymap.set("n", "<CR>", ":FollowLink<CR>", {silent=true})
-vim.keymap.set("n", "<BS>", ":BackLink<CR>", {silent=true})
-
