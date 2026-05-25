@@ -9,6 +9,11 @@ jobs:
         uses: actions/checkout@v6
         with:
           submodules: true
+      - name: Install NeoVim
+        run: |
+          curl -LO https://github.com/neovim/neovim/releases/tag/0.12.2/download/nvim.appimage
+          chmod u+x nvim.appimage
+          ./nvim.appimage
       - name: Run tests from makefile
         run: make test
 
