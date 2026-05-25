@@ -7,6 +7,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v6
+        with:
+          submodules: true
       - name: Check out the MiniTest submodule
         run: |
           git rev-parse --short HEAD
