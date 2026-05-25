@@ -11,7 +11,7 @@ jobs:
           submodules: true
       - name: Install NeoVim
         run: |
-          curl -LO https://github.com/neovim/neovim/releases/tag/0.12.2/download/nvim.appimage
+          curl -sL -o nvim.appimage https://github.com/neovim/neovim/releases/download/v0.12.2/nvim-linux-x86_64.appimage
           chmod u+x nvim.appimage
           ./nvim.appimage
       - name: Run tests from makefile
