@@ -60,8 +60,8 @@ end
 local function _follow_link()
   local file_name = _get_link_at_cursor()
   if file_name ~= nil then
-    local cwd = vim.fn.expand('%:p:h')
-    local current_file_path = vim.fn.expand('%:p')
+    local cwd = vim.fn.expand('%:h')
+    local current_file_path = vim.fn.expand('%')
     local path = cwd .. "/" .. file_name
     table.insert(link_stack,current_file_path)
     vim.cmd.edit(path)

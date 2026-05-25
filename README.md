@@ -3,9 +3,13 @@ A neovim plugin that allows you to quickly navigate from one markdown file to an
 
 # Installation
 
+Lazy
+```lua
+
+```
+
 # Usage
 
 # Todo
-- add tests for actually navigating in vim
 - Create a release
 - Finish this readme
