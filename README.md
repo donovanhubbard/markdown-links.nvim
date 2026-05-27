@@ -70,14 +70,15 @@ to other files that are not markdown files so you may not have the plugin loaded
 This uses MiniTest for running tests. A handy reference is located here: 
 https://nvim-mini.org/mini.nvim/TESTING#executing-lua-code
 
-MiniTest recommends to download it's codebase and place it in the `deps/` folder which I have done.
-This is listed as a git sub module so you will need to check that out as well.
+MiniTest recommends to download it's codebase and place it in the `deps/` folder.
 
+run 
 ```
-git clone git@github.com:donovanhubbard/markdown-links.nvim.git
-cd markdown-links.nvim/
-git submodule update --init --recursive
-```
+make deps/mini.nvim:
+``` 
+
+Do not commit deps/mini.nvim to the repo. It's only needed for development, not for distribution to end users. 
+
 
 Then run your tests using the makefile. From the root of the git directory run:
 ```

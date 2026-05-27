@@ -40,3 +40,5 @@ luac.out
 *.hex
 
 .DS_store
+
+deps/mini.nvim
