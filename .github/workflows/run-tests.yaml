@@ -15,6 +15,8 @@ jobs:
           chmod u+x nvim
           sudo mv nvim /usr/local/bin
           nvim --version
+      - name: Install test dependencies
+        run: make deps/mini.nvim
       - name: Run tests from makefile
         run: make test
 
