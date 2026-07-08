@@ -1,12 +1,11 @@
-local link_stack = {}
-
-
+-- Prints out the contents of the link stack to the screen.
+-- Used for debugging only
 local function _print_link_stack()
-  if link_stack == nil then
+  if vim.w.link_stack == nil then
     print("link_stack is nil")
   else
-    print("link_stack length = ",#link_stack)
-    for index, value in ipairs(link_stack) do
+    print("link_stack length = ",#vim.w.link_stack)
+    for index, value in ipairs(vim.w.link_stack) do
       print(index, value)
     end
   end
@@ -57,25 +56,32 @@ local function _get_link_at_cursor()
   return nil
 end
 
+-- Opens the file referenced at the cursor. Adds it to the link stack
 local function _follow_link()
   local file_name = _get_link_at_cursor()
   if file_name ~= nil then
     local cwd = vim.fn.expand('%:h')
     local current_file_path = vim.fn.expand('%')
     local path = cwd .. "/" .. file_name
-    table.insert(link_stack,current_file_path)
+    local stack = vim.w.link_stack or {}
+    table.insert(stack,current_file_path)
+    vim.w.link_stack = stack
     vim.cmd.edit(path)
   end
 end
 
+-- Pops the top file off the link stack and opens it
 local function _back_link()
-  local target_file_path = link_stack[#link_stack]
+  local stack = vim.w.link_stack or {}
+  local target_file_path = stack[#stack]
   if target_file_path ~= nil then
-    table.remove(link_stack)
+    table.remove(stack)
+    vim.w.link_stack = stack
     vim.cmd.edit(target_file_path)
   end
 end
 
+-- Sets up highlighting for markdown links
 local ns = vim.api.nvim_create_namespace("markdown-links")
 vim.api.nvim_set_hl(0, "MarkdownLink", { fg = "#6176ff" })
 vim.api.nvim_set_decoration_provider(ns, {
@@ -99,11 +105,14 @@ vim.api.nvim_set_decoration_provider(ns, {
 local M = {
   _get_links_position = _get_links_position,
   _get_link = _get_link,
-  FollowLink = function()
+  follow_link = function()
     _follow_link()
   end,
-  BackLink = function()
+  back_link = function()
     _back_link()
+  end,
+  print_link_stack = function()
+    _print_link_stack()
   end,
 }
 
