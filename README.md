@@ -18,6 +18,8 @@ return {
   keys = { -- plugin does not map any keys by default
     vim.keymap.set("n", "<CR>", ":FollowLink<CR>", {silent=true}),
     vim.keymap.set("n", "<BS>", ":BackLink<CR>", {silent=true}),
+    vim.keymap.set('n', '<leader>h', ':FolloLinkSplit<CR>', {silent=true})
+    vim.keymap.set('n', '<leader>v', ':FollowLinkVSplit<CR>', {silent=true})
   }
 }
 ```
@@ -51,7 +53,6 @@ In order to activate a link, move your cursor on top of the link and invoke the 
 ```
 :FollowLink
 ```
-
 I recommend mapping this function to a useful key. I use the enter key.
 
 To go back to the previous file that you jumped from, use the command
@@ -64,6 +65,15 @@ I recommend mapping this to a useful key as well. I use the backspace key.
 The `BackLink` command will remember all previous links that you've jumped from so you can
 keep calling `:BackLink` until you've returned to your original page. Keep in mind you can jump
 to other files that are not markdown files so you may not have the plugin loaded anymore.
+
+To follow a link, but open it in a horizontal split, run 
+```
+:FollowLinkSplit
+```
+To follow a link but open it in a vertical split run
+```
+:FollowLinkVSplit
+```
 
 # Development
 

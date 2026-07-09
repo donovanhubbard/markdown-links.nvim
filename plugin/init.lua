@@ -10,6 +10,16 @@ vim.api.nvim_create_user_command('FollowLink',function()
   end,
   {desc = "Attempts to follow the link the cursor is on"}
 )
+vim.api.nvim_create_user_command('FollowLinkSplit',function()
+    M.follow_link_split()
+  end,
+  {desc = "Attempts to follow the link the cursor is on in a horiztonal split window"}
+)
+vim.api.nvim_create_user_command('FollowLinkVSplit',function()
+    M.follow_link_vsplit()
+  end,
+  {desc = "Attempts to follow the link the cursor is on in a vertical split window"}
+)
 vim.api.nvim_create_user_command('BackLink',function()
     M.back_link()
   end,

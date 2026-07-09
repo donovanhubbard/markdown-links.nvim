@@ -7,6 +7,16 @@ M.check = function()
   else
     vim.health.error("Missing :FollowLink command")
   end
+  if vim.fn.exists(":FollowLinkSplit") == 2 then
+    vim.health.ok("Has :FollowLinkSplit command")
+  else
+    vim.health.error("Missing :FollowLinkSplit command")
+  end
+  if vim.fn.exists(":FollowLinkVSplit") == 2 then
+    vim.health.ok("Has :FollowLinkVSplit command")
+  else
+    vim.health.error("Missing :FollowLinkVSplit command")
+  end
   if vim.fn.exists(":BackLink") == 2 then
     vim.health.ok("Has :BackLink command")
   else
@@ -23,8 +33,6 @@ M.check = function()
   else
     vim.health.error("Highlight group is missing")
   end
-
-
 end
 
 return M

@@ -39,6 +39,30 @@ T['follow_link']['without a link does nothing'] = function()
   MiniTest.expect.equality(current_file,"tests/fixtures/index.md")
 end
 
+T['follow_link']['split'] = function()
+  child.cmd("e tests/fixtures/index.md")
+  child.api.nvim_win_set_cursor(0, {2, 16})
+  child.lua([[M.follow_link_split()]])
+  local windows = child.api.nvim_list_wins()
+  MiniTest.expect.equality(2, #windows)
+  local current_file = child.fn.expand("%")
+  MiniTest.expect.equality(current_file,"tests/fixtures/one.md")
+  local layout = child.fn.winlayout()
+  MiniTest.expect.equality(layout[1], 'col')
+end
+
+T['follow_link']['vsplit'] = function()
+  child.cmd("e tests/fixtures/index.md")
+  child.api.nvim_win_set_cursor(0, {2, 16})
+  child.lua([[M.follow_link_vsplit()]])
+  local windows = child.api.nvim_list_wins()
+  MiniTest.expect.equality(2, #windows)
+  local current_file = child.fn.expand("%")
+  MiniTest.expect.equality(current_file,"tests/fixtures/one.md")
+  local layout = child.fn.winlayout()
+  MiniTest.expect.equality(layout[1], 'row')
+end
+
 T['back_link'] = MiniTest.new_set()
 
 T['back_link']['should not fail with no links in stack'] = function()

@@ -70,6 +70,26 @@ local function _follow_link()
   end
 end
 
+-- Opens the file referenced at the cursor in a new horizontal split window
+local function _follow_link_split()
+  local file_name = _get_link_at_cursor()
+  if file_name ~= nil then
+    local cwd = vim.fn.expand('%:h')
+    local path = cwd .. "/" .. file_name
+    vim.cmd.split(path)
+  end
+end
+
+-- Opens the file referenced at the cursor in a new vertical split window
+local function _follow_link_vsplit()
+  local file_name = _get_link_at_cursor()
+  if file_name ~= nil then
+    local cwd = vim.fn.expand('%:h')
+    local path = cwd .. "/" .. file_name
+    vim.cmd.vsplit(path)
+  end
+end
+
 -- Pops the top file off the link stack and opens it
 local function _back_link()
   local stack = vim.w.link_stack or {}
@@ -107,6 +127,12 @@ local M = {
   _get_link = _get_link,
   follow_link = function()
     _follow_link()
+  end,
+  follow_link_split = function()
+    _follow_link_split()
+  end,
+  follow_link_vsplit = function()
+    _follow_link_vsplit()
   end,
   back_link = function()
     _back_link()
